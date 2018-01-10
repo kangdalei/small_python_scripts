@@ -20,7 +20,7 @@ def split_file_name(file_name):
 
     m_n = re.match(r'^.+_N(\d+)_.+.pdf$', file_name)
     if m_n:  # 是否有数量
-        split_file_name_list.append(m_n.group(1))
+        split_file_name_list.append(int(m_n.group(1)))  # 转换为整数
     else:
         split_file_name_list.append('NONE')
     return split_file_name_list
@@ -59,6 +59,10 @@ col = 2
 for row in range(3, 3 + len(pdf_filenames)):
     for col in range(2, 5):
         ws.cell(row=row, column=col).value = pdf_filenames[row - 3][col - 2]
+        # if col == 4:  # 第4列，数量列
+        #     # 设置格式：格式 数字如果是字符串格式，无用
+        #     # 数字如果是整数格式，也不用设置，所以注释掉
+        #     ws.cell(row=row, column=col).number_format = 'General'
 
 # 处理序号, 从1开始
 serial_num = 1
