@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # python3
 
-# 本程序利用md5和sha-512算法，由输入的初始字符串和给定的密钥长度（设定为
+# 本程序利用sha-512算法，由输入的初始字符串和给定的密钥长度（设定为
 # 最小8位，最大64位），生成由ASCII码（10个数字、52个大小写字母、32
 # 个特殊字符）组成的密钥。密钥看上去强度很高，但是用户选择的初始字符串一
 # 般很简单，所以如果本程序被攻击者获得，那么可以很轻松的跑出专门针对本程
@@ -46,13 +46,13 @@ if key_length < 8:
 elif key_length > 64:
     key_length = 64
 
-# 利用md5，根据密钥长度，将str转变为一个32位字符串
+# 根据密钥长度，将str转变为一个128位字符串
 for i in range(0, key_length):
-    str = hashlib.md5(str.encode('utf-8')).hexdigest()
+    str = sha512(str)
 
-# 讲str分成4组8位字符串，分别sha512散列后拼接成一个512位字符串
-str4_sha512 = sha512(str[0:8]) + sha512(str[8:16]) + sha512(str[16:24]) \
-              + sha512(str[24:32])
+# str分成4组32位字符串，分别sha512散列后拼接成一个512位字符串
+str4_sha512 = sha512(str[0:32]) + sha512(str[32:64]) + sha512(str[64:96]) \
+              + sha512(str[96:128])
 
 one_group_length = 512 // key_length
 
